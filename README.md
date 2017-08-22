@@ -1,4 +1,4 @@
-![VisionDetector](https://preview.ibb.co/hpJGK5/Vision_Detector_Logo.png)
+![VisionDetect](https://preview.ibb.co/insD1k/Vision_Detector_Logo.png)
 > VisionDetector let you track user face gestures like blink, smile etc.
 
 [![Swift Version][swift-image]][swift-url]
@@ -28,16 +28,16 @@ Inspired from https://github.com/aaronabentheuer/AAFaceDetection , added some ne
     func didRightEyeOpened()
 ```
 
-## Features 
+## Features
 > You can easily take a picture or save it to photo album.
 
 ``` swift
-    self.vDetector.takeAPicture(completionHandler: { (image) in
-    
+    self.vDetect.takeAPicture(completionHandler: { (image) in
+
     })
 ```
 ``` swift
-    self.vDetector.saveToCamera()
+    self.vDetect.saveToCamera()
 ```
 
 ## Requirements
@@ -48,58 +48,58 @@ Inspired from https://github.com/aaronabentheuer/AAFaceDetection , added some ne
 ## Installation
 
 #### CocoaPods
-You can use [CocoaPods](http://cocoapods.org/) to install `VisionDetector` by adding it to your `Podfile`:
+You can use [CocoaPods](http://cocoapods.org/) to install `VisionDetect` by adding it to your `Podfile`:
 
 ```ruby
 platform :ios, '8.0'
 use_frameworks!
-pod 'VisionDetector'
+pod 'VisionDetect'
 ```
 
-To get the full benefits import `VisionDetector` wherever you import UIKit
+To get the full benefits import `VisionDetect` wherever you import UIKit
 
 ``` swift
-import VisionDetector
+import VisionDetect
 ```
 #### Carthage
-Create a `Cartfile` that lists the framework and run `carthage update`. Follow the [instructions](https://github.com/Carthage/Carthage#if-youre-building-for-ios) to add `$(SRCROOT)/Carthage/Build/iOS/VisionDetector.framework` to an iOS project.
+Create a `Cartfile` that lists the framework and run `carthage update`. Follow the [instructions](https://github.com/Carthage/Carthage#if-youre-building-for-ios) to add `$(SRCROOT)/Carthage/Build/iOS/VisionDetect.framework` to an iOS project.
 
 ```
-github "miletliyusuf/VisionDetector"
+github "miletliyusuf/VisionDetect"
 ```
 #### Manually
-1. Download and drop ```VisionDetector.swift``` in your project.  
+1. Download and drop ```VisionDetect.swift``` in your project.  
 2. Congratulations!  
 
 ## Usage example
 
 ```swift
-import VisionDetector
+import VisionDetect
 
 class YourViewController: UIViewController {
 
     @IBOutlet weak var imageView:UIImageView!
 
-    var vDetector:VisionDetector!
-    
+    var vDetect:VisionDetect!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        vDetector = VisageDetector(cameraPosition: VisionDetector.CameraDevice.FaceTimeCamera, optimizeFor: VisionDetector.DetectorAccuracy.HigherPerformance)
-        vDetector.delegate = self
-        vDetector.onlyFireNotificatonOnStatusChange = false
-        vDetector.beginFaceDetection()
-        
-        self.view.addSubview(vDetector.visageCameraView)
+        vDetect = VisageDetect(cameraPosition: VisionDetect.CameraDevice.FaceTimeCamera, optimizeFor: VisionDetect.DetectorAccuracy.HigherPerformance)
+        vDetect.delegate = self
+        vDetect.onlyFireNotificatonOnStatusChange = false
+        vDetect.beginFaceDetection()
+
+        self.view.addSubview(vDetect.visageCameraView)
     }
 }
 
-extension YourViewController: VisionDetectorDelegate {
+extension YourViewController: VisionDetectDelegate {
     func didLeftEyeClosed() {
-        self.vDetector.takeAPicture(completionHandler: { (image) in
+        self.vDetect.takeAPicture(completionHandler: { (image) in
             self.imageView.image = image
-            self.vDetector.endFaceDetection()
-            self.vDetector.visageCameraView.removeFromSuperview()
+            self.vDetect.endFaceDetection()
+            self.vDetect.visageCameraView.removeFromSuperview()
         })
     }
 }
@@ -108,7 +108,7 @@ extension YourViewController: VisionDetectorDelegate {
 
 ## Contribute
 
-We would love you for the contribution to **VisionDetector**, check the ``LICENSE`` file for more info.
+We would love you for the contribution to **VisionDetect**, check the ``LICENSE`` file for more info.
 
 ## Meta
 
@@ -116,7 +116,7 @@ Yusuf Miletli – [@ysfmltli](https://twitter.com/ysfmltli) – miletliyusuf@gma
 
 Distributed under the MIT license. See ``LICENSE`` for more information.
 
-[https://github.com/miletliyusuf/VisionDetector](https://github.com/miletliyusuf/)
+[https://github.com/miletliyusuf/VisionDetect](https://github.com/miletliyusuf/)
 
 [swift-image]:https://img.shields.io/badge/swift-3.0-orange.svg
 [swift-url]: https://swift.org/
