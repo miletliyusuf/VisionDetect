@@ -1,5 +1,5 @@
 ![VisionDetect](https://preview.ibb.co/insD1k/Vision_Detector_Logo.png)
-> VisionDetector let you track user face gestures like blink, smile etc.
+> VisionDetect let you track user face gestures like blink, smile etc.
 
 [![Swift Version][swift-image]][swift-url]
 [![Build Status][travis-image]][travis-url]
