@@ -11,7 +11,7 @@ import CoreImage
 import AVFoundation
 import ImageIO
 
-public protocol VisageDelegate {
+public protocol VisionDetectorDelegate {
     func didNoFaceDetected()
     func didFaceDetected()
     func didSmile()
@@ -27,7 +27,7 @@ public protocol VisageDelegate {
 }
 
 ///Makes every method is optional
-extension VisageDelegate {
+extension VisionDetectorDelegate {
     func didNoFaceDetected() {}
     func didFaceDetected() {}
     func didSmile() {}
@@ -42,9 +42,9 @@ extension VisageDelegate {
     func didRightEyeOpened() {}
 }
 
-class Visage: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
+class VisionDetector: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     
-    public var delegate:VisageDelegate? = nil
+    public var delegate:VisionDetectorDelegate? = nil
     
     enum DetectorAccuracy {
         case BatterySaving
