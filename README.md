@@ -90,7 +90,7 @@ class YourViewController: UIViewController {
         vDetector.onlyFireNotificatonOnStatusChange = false
         vDetector.beginFaceDetection()
         
-        self.view.addSubview(visage.visageCameraView)
+        self.view.addSubview(vDetector.visageCameraView)
     }
 }
 
