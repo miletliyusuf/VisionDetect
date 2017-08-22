@@ -85,7 +85,7 @@ class YourViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        vDetector = VisageDetector(cameraPosition: Visage.CameraDevice.FaceTimeCamera, optimizeFor: Visage.DetectorAccuracy.HigherPerformance)
+        vDetector = VisageDetector(cameraPosition: VisionDetector.CameraDevice.FaceTimeCamera, optimizeFor: VisionDetector.DetectorAccuracy.HigherPerformance)
         vDetector.delegate = self
         vDetector.onlyFireNotificatonOnStatusChange = false
         vDetector.beginFaceDetection()
@@ -94,7 +94,7 @@ class YourViewController: UIViewController {
     }
 }
 
-extension YourViewController: VisageDelegate {
+extension YourViewController: VisionDetectorDelegate {
     func didLeftEyeClosed() {
         self.vDetector.takeAPicture(completionHandler: { (image) in
             self.imageView.image = image
