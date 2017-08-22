@@ -11,13 +11,22 @@
 
 One to two paragraph statement about your product and what it does.
 
-## Features
+## Delegate Methods
 
-- [x] Feature 1
-- [x] Feature 2
-- [x] Feature 3
-- [x] Feature 4
-- [x] Feature 5
+``` swift
+    func didNoFaceDetected()
+    func didFaceDetected()
+    func didSmile()
+    func didNotSmile()
+    func didBlinked()
+    func didNotBlinked()
+    func didWinked()
+    func didNotWinked()
+    func didLeftEyeClosed()
+    func didLeftEyeOpened()
+    func didRightEyeClosed()
+    func didRightEyeOpened()
+```
 
 ## Requirements
 
@@ -38,11 +47,10 @@ pod 'VisionDetector'
 To get the full benefits import `VisionDetector` wherever you import UIKit
 
 ``` swift
-import UIKit
 import VisionDetector
 ```
 #### Carthage
-Create a `Cartfile` that lists the framework and run `carthage update`. Follow the [instructions](https://github.com/Carthage/Carthage#if-youre-building-for-ios) to add `$(SRCROOT)/Carthage/Build/iOS/YourLibrary.framework` to an iOS project.
+Create a `Cartfile` that lists the framework and run `carthage update`. Follow the [instructions](https://github.com/Carthage/Carthage#if-youre-building-for-ios) to add `$(SRCROOT)/Carthage/Build/iOS/VisionDetector.framework` to an iOS project.
 
 ```
 github "miletliyusuf/VisionDetector"
@@ -74,7 +82,7 @@ class YourViewController: UIViewController {
     }
 }
 
-extension SelfyDetectionViewController: VisageDelegate {
+extension YourViewController: VisageDelegate {
     func didLeftEyeClosed() {
         self.vDetectorv.takeAPicture(completionHandler: { (image) in
             self.imageView.image = image
