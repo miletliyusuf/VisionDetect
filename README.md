@@ -85,7 +85,7 @@ class YourViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        vDetect = VisageDetect(cameraPosition: VisionDetect.CameraDevice.FaceTimeCamera, optimizeFor: VisionDetect.DetectorAccuracy.HigherPerformance)
+        vDetect = VisionDetect(cameraPosition: VisionDetect.CameraDevice.FaceTimeCamera, optimizeFor: VisionDetect.DetectorAccuracy.HigherPerformance)
         vDetect.delegate = self
         vDetect.onlyFireNotificatonOnStatusChange = false
         vDetect.beginFaceDetection()
