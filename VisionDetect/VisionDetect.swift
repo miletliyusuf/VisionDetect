@@ -1,6 +1,6 @@
 //
-//  VisionDetector.swift
-//  VisionDetector
+//  VisionDetect.swift
+//  VisionDetect
 //
 //  Created by Yusuf Miletli on 8/21/17.
 //  Copyright © 2017 Miletli. All rights reserved.
@@ -11,7 +11,7 @@ import CoreImage
 import AVFoundation
 import ImageIO
 
-public protocol VisionDetectorDelegate {
+public protocol VisionDetectDelegate {
     func didNoFaceDetected()
     func didFaceDetected()
     func didSmile()
@@ -27,7 +27,7 @@ public protocol VisionDetectorDelegate {
 }
 
 ///Makes every method is optional
-extension VisionDetectorDelegate {
+extension VisionDetectDelegate {
     func didNoFaceDetected() {}
     func didFaceDetected() {}
     func didSmile() {}
@@ -42,9 +42,9 @@ extension VisionDetectorDelegate {
     func didRightEyeOpened() {}
 }
 
-class VisionDetector: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
+class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     
-    public var delegate:VisionDetectorDelegate? = nil
+    public var delegate:VisionDetectDelegate? = nil
     
     enum DetectorAccuracy {
         case BatterySaving

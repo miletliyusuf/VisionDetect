@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		887354961F4B26DB00BD2687 /* VisionDetector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8873548C1F4B26DB00BD2687 /* VisionDetector.framework */; };
+		887354961F4B26DB00BD2687 /* VisionDetect.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8873548C1F4B26DB00BD2687 /* VisionDetect.framework */; };
 		8873549B1F4B26DB00BD2687 /* VisionDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8873549A1F4B26DB00BD2687 /* VisionDetectorTests.swift */; };
-		8873549D1F4B26DB00BD2687 /* VisionDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = 8873548F1F4B26DB00BD2687 /* VisionDetector.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		887354A71F4B26F500BD2687 /* VisionDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887354A61F4B26F500BD2687 /* VisionDetector.swift */; };
+		8873549D1F4B26DB00BD2687 /* VisionDetect.h in Headers */ = {isa = PBXBuildFile; fileRef = 8873548F1F4B26DB00BD2687 /* VisionDetect.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		887354A71F4B26F500BD2687 /* VisionDetect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887354A61F4B26F500BD2687 /* VisionDetect.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,13 +24,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8873548C1F4B26DB00BD2687 /* VisionDetector.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VisionDetector.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8873548F1F4B26DB00BD2687 /* VisionDetector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VisionDetector.h; sourceTree = "<group>"; };
+		8873548C1F4B26DB00BD2687 /* VisionDetect.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VisionDetect.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8873548F1F4B26DB00BD2687 /* VisionDetect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VisionDetect.h; sourceTree = "<group>"; };
 		887354901F4B26DB00BD2687 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		887354951F4B26DB00BD2687 /* VisionDetectorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VisionDetectorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		887354951F4B26DB00BD2687 /* VisionDetectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VisionDetectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8873549A1F4B26DB00BD2687 /* VisionDetectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionDetectorTests.swift; sourceTree = "<group>"; };
 		8873549C1F4B26DB00BD2687 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		887354A61F4B26F500BD2687 /* VisionDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionDetector.swift; sourceTree = "<group>"; };
+		887354A61F4B26F500BD2687 /* VisionDetect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionDetect.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,7 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				887354961F4B26DB00BD2687 /* VisionDetector.framework in Frameworks */,
+				887354961F4B26DB00BD2687 /* VisionDetect.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,8 +55,8 @@
 		887354821F4B26DB00BD2687 = {
 			isa = PBXGroup;
 			children = (
-				8873548E1F4B26DB00BD2687 /* VisionDetector */,
-				887354991F4B26DB00BD2687 /* VisionDetectorTests */,
+				8873548E1F4B26DB00BD2687 /* VisionDetect */,
+				887354991F4B26DB00BD2687 /* VisionDetectTests */,
 				8873548D1F4B26DB00BD2687 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -64,29 +64,29 @@
 		8873548D1F4B26DB00BD2687 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8873548C1F4B26DB00BD2687 /* VisionDetector.framework */,
-				887354951F4B26DB00BD2687 /* VisionDetectorTests.xctest */,
+				8873548C1F4B26DB00BD2687 /* VisionDetect.framework */,
+				887354951F4B26DB00BD2687 /* VisionDetectTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8873548E1F4B26DB00BD2687 /* VisionDetector */ = {
+		8873548E1F4B26DB00BD2687 /* VisionDetect */ = {
 			isa = PBXGroup;
 			children = (
-				8873548F1F4B26DB00BD2687 /* VisionDetector.h */,
+				8873548F1F4B26DB00BD2687 /* VisionDetect.h */,
 				887354901F4B26DB00BD2687 /* Info.plist */,
-				887354A61F4B26F500BD2687 /* VisionDetector.swift */,
+				887354A61F4B26F500BD2687 /* VisionDetect.swift */,
 			);
-			path = VisionDetector;
+			path = VisionDetect;
 			sourceTree = "<group>";
 		};
-		887354991F4B26DB00BD2687 /* VisionDetectorTests */ = {
+		887354991F4B26DB00BD2687 /* VisionDetectTests */ = {
 			isa = PBXGroup;
 			children = (
 				8873549A1F4B26DB00BD2687 /* VisionDetectorTests.swift */,
 				8873549C1F4B26DB00BD2687 /* Info.plist */,
 			);
-			path = VisionDetectorTests;
+			path = VisionDetectTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -96,16 +96,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8873549D1F4B26DB00BD2687 /* VisionDetector.h in Headers */,
+				8873549D1F4B26DB00BD2687 /* VisionDetect.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8873548B1F4B26DB00BD2687 /* VisionDetector */ = {
+		8873548B1F4B26DB00BD2687 /* VisionDetect */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 887354A01F4B26DB00BD2687 /* Build configuration list for PBXNativeTarget "VisionDetector" */;
+			buildConfigurationList = 887354A01F4B26DB00BD2687 /* Build configuration list for PBXNativeTarget "VisionDetect" */;
 			buildPhases = (
 				887354871F4B26DB00BD2687 /* Sources */,
 				887354881F4B26DB00BD2687 /* Frameworks */,
@@ -116,14 +116,14 @@
 			);
 			dependencies = (
 			);
-			name = VisionDetector;
+			name = VisionDetect;
 			productName = VisionDetector;
-			productReference = 8873548C1F4B26DB00BD2687 /* VisionDetector.framework */;
+			productReference = 8873548C1F4B26DB00BD2687 /* VisionDetect.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		887354941F4B26DB00BD2687 /* VisionDetectorTests */ = {
+		887354941F4B26DB00BD2687 /* VisionDetectTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 887354A31F4B26DB00BD2687 /* Build configuration list for PBXNativeTarget "VisionDetectorTests" */;
+			buildConfigurationList = 887354A31F4B26DB00BD2687 /* Build configuration list for PBXNativeTarget "VisionDetectTests" */;
 			buildPhases = (
 				887354911F4B26DB00BD2687 /* Sources */,
 				887354921F4B26DB00BD2687 /* Frameworks */,
@@ -134,9 +134,9 @@
 			dependencies = (
 				887354981F4B26DB00BD2687 /* PBXTargetDependency */,
 			);
-			name = VisionDetectorTests;
+			name = VisionDetectTests;
 			productName = VisionDetectorTests;
-			productReference = 887354951F4B26DB00BD2687 /* VisionDetectorTests.xctest */;
+			productReference = 887354951F4B26DB00BD2687 /* VisionDetectTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -158,7 +158,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 887354861F4B26DB00BD2687 /* Build configuration list for PBXProject "VisionDetector" */;
+			buildConfigurationList = 887354861F4B26DB00BD2687 /* Build configuration list for PBXProject "VisionDetect" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -170,8 +170,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8873548B1F4B26DB00BD2687 /* VisionDetector */,
-				887354941F4B26DB00BD2687 /* VisionDetectorTests */,
+				8873548B1F4B26DB00BD2687 /* VisionDetect */,
+				887354941F4B26DB00BD2687 /* VisionDetectTests */,
 			);
 		};
 /* End PBXProject section */
@@ -198,7 +198,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				887354A71F4B26F500BD2687 /* VisionDetector.swift in Sources */,
+				887354A71F4B26F500BD2687 /* VisionDetect.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,7 +215,7 @@
 /* Begin PBXTargetDependency section */
 		887354981F4B26DB00BD2687 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8873548B1F4B26DB00BD2687 /* VisionDetector */;
+			target = 8873548B1F4B26DB00BD2687 /* VisionDetect */;
 			targetProxy = 887354971F4B26DB00BD2687 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -343,7 +343,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = VisionDetector/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/VisionDetect/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ymiletli.VisionDetector;
@@ -364,7 +364,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = VisionDetector/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/VisionDetect/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ymiletli.VisionDetector;
@@ -404,7 +404,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		887354861F4B26DB00BD2687 /* Build configuration list for PBXProject "VisionDetector" */ = {
+		887354861F4B26DB00BD2687 /* Build configuration list for PBXProject "VisionDetect" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8873549E1F4B26DB00BD2687 /* Debug */,
@@ -413,21 +413,23 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		887354A01F4B26DB00BD2687 /* Build configuration list for PBXNativeTarget "VisionDetector" */ = {
+		887354A01F4B26DB00BD2687 /* Build configuration list for PBXNativeTarget "VisionDetect" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				887354A11F4B26DB00BD2687 /* Debug */,
 				887354A21F4B26DB00BD2687 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
-		887354A31F4B26DB00BD2687 /* Build configuration list for PBXNativeTarget "VisionDetectorTests" */ = {
+		887354A31F4B26DB00BD2687 /* Build configuration list for PBXNativeTarget "VisionDetectTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				887354A41F4B26DB00BD2687 /* Debug */,
 				887354A51F4B26DB00BD2687 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

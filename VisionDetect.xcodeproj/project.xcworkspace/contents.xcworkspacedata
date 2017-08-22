@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:VisionDetector.xcodeproj">
+      location = "self:/Users/yusuf/Developer/VisionDetector/VisionDetect.xcodeproj">
    </FileRef>
 </Workspace>
