@@ -1,5 +1,5 @@
 ![VisionDetector](https://preview.ibb.co/hpJGK5/Vision_Detector_Logo.png)
-> Short blurb about what your product does.
+> VisionDetector let you track user face gestures like blink, smile etc.
 
 [![Swift Version][swift-image]][swift-url]
 [![Build Status][travis-image]][travis-url]
@@ -9,7 +9,7 @@
 [![Platform](https://img.shields.io/cocoapods/p/LFAlertController.svg?style=flat)](http://cocoapods.org/pods/LFAlertController)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-One to two paragraph statement about your product and what it does.
+Inspired from https://github.com/aaronabentheuer/AAFaceDetection , added some new features(like take a photo) and will add in near future. Moved from KVO to Delegation structure to easy use :)
 
 ## Delegate Methods
 
@@ -26,6 +26,18 @@ One to two paragraph statement about your product and what it does.
     func didLeftEyeOpened()
     func didRightEyeClosed()
     func didRightEyeOpened()
+```
+
+## Features 
+> You can easily take a picture or save it to photo album.
+
+``` swift
+    self.vDetector.takeAPicture(completionHandler: { (image) in
+    
+    })
+```
+``` swift
+    self.vDetector.saveToCamera()
 ```
 
 ## Requirements
@@ -84,7 +96,7 @@ class YourViewController: UIViewController {
 
 extension YourViewController: VisageDelegate {
     func didLeftEyeClosed() {
-        self.vDetectorv.takeAPicture(completionHandler: { (image) in
+        self.vDetector.takeAPicture(completionHandler: { (image) in
             self.imageView.image = image
             self.vDetector.endFaceDetection()
             self.vDetector.visageCameraView.removeFromSuperview()
