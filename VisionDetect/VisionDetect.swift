@@ -84,7 +84,7 @@ open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate 
     private var currentOrientation : Int?
     private let stillImageOutput = AVCaptureStillImageOutput()
     
-    init(cameraPosition : CameraDevice, optimizeFor : DetectorAccuracy) {
+    public init(cameraPosition : CameraDevice, optimizeFor : DetectorAccuracy) {
         super.init()
         
         currentOrientation = convertOrientation(deviceOrientation: UIDevice.current.orientation)
