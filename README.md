@@ -53,7 +53,7 @@ You can use [CocoaPods](http://cocoapods.org/) to install `VisionDetect` by addi
 ```ruby
 platform :ios, '8.0'
 use_frameworks!
-pod 'VisionDetect'
+pod 'VisionDetect', :git=>'https://github.com/miletliyusuf/VisionDetect.git'
 ```
 
 To get the full benefits import `VisionDetect` wherever you import UIKit
