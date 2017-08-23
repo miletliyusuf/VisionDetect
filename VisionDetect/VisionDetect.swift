@@ -42,7 +42,7 @@ extension VisionDetectDelegate {
     func didRightEyeOpened() {}
 }
 
-class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
+open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     public var delegate:VisionDetectDelegate? = nil
     
@@ -192,7 +192,7 @@ class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     var options : [String : AnyObject]?
     
     //MARK: CAPTURE-OUTPUT/ANALYSIS OF FACIAL-FEATURES
-    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
+    public func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
         
         let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
         let opaqueBuffer = Unmanaged<CVImageBuffer>.passUnretained(imageBuffer!).toOpaque()
