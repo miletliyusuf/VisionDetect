@@ -25,6 +25,9 @@ Pod::Spec.new do |s|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   s.description  = <<-DESC
+		
+		Inspired from https://github.com/aaronabentheuer/AAFaceDetection , added some new features(like take a photo) and will add in near future. Moved from KVO to Delegation structure to easy use :)
+
                    DESC
 
   s.homepage     = "https://github.com/miletliyusuf/VisionDetect"
@@ -53,7 +56,7 @@ Pod::Spec.new do |s|
   #
 
   s.author             = { "Yusuf Miletli" => "miletliyusuf@gmail.com" }
-  s.social_media_url   = "http://twitter.com/ysfmltli"
+  s.social_media_url   = "https://twitter.com/ysfmltli"
 
   # ――― Platform Specifics ――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
@@ -77,7 +80,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/miletliyusuf/VisionDetect", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/miletliyusuf/VisionDetect.git", :tag => "#{s.version}" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
