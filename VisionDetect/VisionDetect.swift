@@ -46,12 +46,12 @@ open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate 
     
     public var delegate:VisionDetectDelegate? = nil
     
-    enum DetectorAccuracy {
+    public enum DetectorAccuracy {
         case BatterySaving
         case HigherPerformance
     }
     
-    enum CameraDevice {
+    public enum CameraDevice {
         case ISightCamera
         case FaceTimeCamera
     }
