@@ -28,18 +28,18 @@ public protocol VisionDetectDelegate {
 
 ///Makes every method is optional
 extension VisionDetectDelegate {
-    func didNoFaceDetected() {}
-    func didFaceDetected() {}
-    func didSmile() {}
-    func didNotSmile() {}
-    func didBlinked() {}
-    func didNotBlinked() {}
-    func didWinked() {}
-    func didNotWinked() {}
-    func didLeftEyeClosed() {}
-    func didLeftEyeOpened() {}
-    func didRightEyeClosed() {}
-    func didRightEyeOpened() {}
+    func didNoFaceDetected() { }
+    func didFaceDetected() { }
+    func didSmile() { }
+    func didNotSmile() { }
+    func didBlinked() { }
+    func didNotBlinked() { }
+    func didWinked() { }
+    func didNotWinked() { }
+    func didLeftEyeClosed() { }
+    func didLeftEyeOpened() { }
+    func didRightEyeClosed() { }
+    func didRightEyeOpened() { }
 }
 
 open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
@@ -56,8 +56,8 @@ open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate 
         case FaceTimeCamera
     }
     
-    var onlyFireNotificatonOnStatusChange : Bool = true
-    var visageCameraView : UIView = UIView()
+    public var onlyFireNotificatonOnStatusChange : Bool = true
+    public var visageCameraView : UIView = UIView()
     
     //Private properties of the detected face that can be accessed (read-only) by other classes.
     private(set) var faceDetected : Bool?
@@ -105,22 +105,22 @@ open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate 
     }
     
     //MARK: SETUP OF VIDEOCAPTURE
-    func beginFaceDetection() {
+    public func beginFaceDetection() {
         self.captureSession.startRunning()
         self.setupSaveToCameraRoll()
     }
     
-    func endFaceDetection() {
+    public func endFaceDetection() {
         self.captureSession.stopRunning()
     }
     
-    private func setupSaveToCameraRoll() {
+    public func setupSaveToCameraRoll() {
         if captureSession.canAddOutput(stillImageOutput) {
             captureSession.addOutput(stillImageOutput)
         }
     }
     
-    func saveToCamera() {
+    public func saveToCamera() {
         if let videoConnection = stillImageOutput.connection(withMediaType: AVMediaTypeVideo) {
             stillImageOutput.captureStillImageAsynchronously(from: videoConnection) {
                 (imageDataSampleBuffer, error) -> Void in
@@ -130,7 +130,7 @@ open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate 
         }
     }
     
-    func takeAPicture(completionHandler: @escaping (_ image:UIImage) -> ()) {
+    public func takeAPicture(completionHandler: @escaping (_ image:UIImage) -> ()) {
         if let videoConnection = stillImageOutput.connection(withMediaType: AVMediaTypeVideo) {
             
             stillImageOutput.captureStillImageAsynchronously(from: videoConnection) {
