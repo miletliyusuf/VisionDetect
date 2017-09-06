@@ -42,6 +42,21 @@ extension VisionDetectDelegate {
     func didRightEyeOpened() { }
 }
 
+public enum VisionDetectGestures {
+    case face
+    case noFace
+    case smile
+    case noSmile
+    case blink
+    case noBlink
+    case wink
+    case noWink
+    case leftEyeClosed
+    case noLeftEyeClosed
+    case rightEyeClosed
+    case noRightEyeClosed
+}
+
 open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     public var delegate:VisionDetectDelegate? = nil
@@ -83,6 +98,7 @@ open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate 
     private let notificationCenter : NotificationCenter = NotificationCenter.default
     private var currentOrientation : Int?
     private let stillImageOutput = AVCaptureStillImageOutput()
+    private var detectedGestures:[VisionDetectGestures] = []
     
     public init(cameraPosition : CameraDevice, optimizeFor : DetectorAccuracy) {
         super.init()
@@ -128,6 +144,11 @@ open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate 
                 UIImageWriteToSavedPhotosAlbum(UIImage(data: imageData!)!, nil, nil, nil)
             }
         }
+    }
+    
+    public func getGestures(from image:UIImage) -> [VisionDetectGestures] {
+        self.captureOutput(takenImage: image)
+        return self.detectedGestures
     }
     
     public func takeAPicture(completionHandler: @escaping (_ image:UIImage) -> ()) {
@@ -189,15 +210,28 @@ open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate 
         visageCameraView.layer.addSublayer(previewLayer!)
     }
     
+    private func addItemToGestureArray(item:VisionDetectGestures) {
+        if !self.detectedGestures.contains(item) {
+            self.detectedGestures.append(item)
+        }
+    }
+    
     var options : [String : AnyObject]?
     
     //MARK: CAPTURE-OUTPUT/ANALYSIS OF FACIAL-FEATURES
-    public func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
+    public func captureOutput(_ captureOutput: AVCaptureOutput? = nil, didOutputSampleBuffer sampleBuffer: CMSampleBuffer? = nil, from connection: AVCaptureConnection? = nil,takenImage: UIImage? = nil) {
+        var sourceImage = CIImage.init()
+        if takenImage == nil {
+            let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer!)
+            let opaqueBuffer = Unmanaged<CVImageBuffer>.passUnretained(imageBuffer!).toOpaque()
+            let pixelBuffer = Unmanaged<CVPixelBuffer>.fromOpaque(opaqueBuffer).takeUnretainedValue()
+            sourceImage = CIImage(cvPixelBuffer: pixelBuffer, options: nil)
+        }
+        else {
+            sourceImage = (takenImage?.ciImage)!
+        }
         
-        let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
-        let opaqueBuffer = Unmanaged<CVImageBuffer>.passUnretained(imageBuffer!).toOpaque()
-        let pixelBuffer = Unmanaged<CVPixelBuffer>.fromOpaque(opaqueBuffer).takeUnretainedValue()
-        let sourceImage = CIImage(cvPixelBuffer: pixelBuffer, options: nil)
+        
         options = [CIDetectorSmile : true as AnyObject, CIDetectorEyeBlink: true as AnyObject, CIDetectorImageOrientation : 6 as AnyObject]
         
         let features = self.faceDetector!.features(in: sourceImage, options: options)
@@ -207,9 +241,11 @@ open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate 
             if (onlyFireNotificatonOnStatusChange == true) {
                 if (self.faceDetected == false) {
                     self.delegate?.didFaceDetected()
+                    self.addItemToGestureArray(item: .face)
                 }
             } else {
                 self.delegate?.didFaceDetected()
+                self.addItemToGestureArray(item: .face)
             }
             
             self.faceDetected = true
@@ -244,9 +280,11 @@ open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate 
                     if (onlyFireNotificatonOnStatusChange == true) {
                         if (self.hasSmile == false) {
                             self.delegate?.didSmile()
+                            self.addItemToGestureArray(item: .smile)
                         }
                     } else {
                         self.delegate?.didSmile()
+                        self.addItemToGestureArray(item: .smile)
                     }
                     
                     hasSmile = feature.hasSmile
@@ -255,9 +293,11 @@ open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate 
                     if (onlyFireNotificatonOnStatusChange == true) {
                         if (self.hasSmile == true) {
                             self.delegate?.didNotSmile()
+                            self.addItemToGestureArray(item: .noSmile)
                         }
                     } else {
                         self.delegate?.didNotSmile()
+                        self.addItemToGestureArray(item: .noSmile)
                     }
                     
                     hasSmile = feature.hasSmile
@@ -267,9 +307,11 @@ open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate 
                     if (onlyFireNotificatonOnStatusChange == true) {
                         if (self.isWinking == false) {
                             self.delegate?.didWinked()
+                            self.addItemToGestureArray(item: .wink)
                         }
                     } else {
                         self.delegate?.didWinked()
+                        self.addItemToGestureArray(item: .wink)
                     }
                     
                     isWinking = true
@@ -278,9 +320,11 @@ open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate 
                         if (onlyFireNotificatonOnStatusChange == true) {
                             if (self.leftEyeClosed == false) {
                                 self.delegate?.didLeftEyeClosed()
+                                self.addItemToGestureArray(item: .leftEyeClosed)
                             }
                         } else {
                             self.delegate?.didLeftEyeClosed()
+                            self.addItemToGestureArray(item: .leftEyeClosed)
                         }
                         
                         leftEyeClosed = feature.leftEyeClosed
@@ -289,9 +333,11 @@ open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate 
                         if (onlyFireNotificatonOnStatusChange == true) {
                             if (self.rightEyeClosed == false) {
                                 self.delegate?.didRightEyeClosed()
+                                self.addItemToGestureArray(item: .rightEyeClosed)
                             }
                         } else {
                             self.delegate?.didRightEyeClosed()
+                            self.addItemToGestureArray(item: .rightEyeClosed)
                         }
                         
                         rightEyeClosed = feature.rightEyeClosed
@@ -300,9 +346,11 @@ open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate 
                         if (onlyFireNotificatonOnStatusChange == true) {
                             if (self.isBlinking == false) {
                                 self.delegate?.didBlinked()
+                                self.addItemToGestureArray(item: .blink)
                             }
                         } else {
                             self.delegate?.didBlinked()
+                            self.addItemToGestureArray(item: .blink)
                         }
                         
                         isBlinking = true
@@ -312,21 +360,29 @@ open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate 
                     if (onlyFireNotificatonOnStatusChange == true) {
                         if (self.isBlinking == true) {
                             self.delegate?.didNotBlinked()
+                            self.addItemToGestureArray(item: .noBlink)
                         }
                         if (self.isWinking == true) {
                             self.delegate?.didNotWinked()
+                            self.addItemToGestureArray(item: .noWink)
                         }
                         if (self.leftEyeClosed == true) {
                             self.delegate?.didLeftEyeOpened()
+                            self.addItemToGestureArray(item: .noLeftEyeClosed)
                         }
                         if (self.rightEyeClosed == true) {
                             self.delegate?.didRightEyeOpened()
+                            self.addItemToGestureArray(item: .noRightEyeClosed)
                         }
                     } else {
                         self.delegate?.didNotBlinked()
+                        self.addItemToGestureArray(item: .noBlink)
                         self.delegate?.didNotWinked()
+                        self.addItemToGestureArray(item: .noWink)
                         self.delegate?.didLeftEyeOpened()
+                        self.addItemToGestureArray(item: .noLeftEyeClosed)
                         self.delegate?.didRightEyeOpened()
+                        self.addItemToGestureArray(item: .noRightEyeClosed)
                     }
                     
                     isBlinking = false
@@ -339,9 +395,11 @@ open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate 
             if (onlyFireNotificatonOnStatusChange == true) {
                 if (self.faceDetected == true) {
                     self.delegate?.didNoFaceDetected()
+                    self.addItemToGestureArray(item: .noFace)
                 }
             } else {
                 self.delegate?.didNoFaceDetected()
+                self.addItemToGestureArray(item: .noFace)
             }
             
             self.faceDetected = false
