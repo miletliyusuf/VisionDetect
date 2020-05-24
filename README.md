@@ -32,18 +32,17 @@ Inspired from https://github.com/aaronabentheuer/AAFaceDetection , added some ne
 > You can easily take a picture or save it to photo album.
 
 ``` swift
-    self.vDetect.takeAPicture(completionHandler: { (image) in
-
-    })
-```
-``` swift
-    self.vDetect.saveToCamera()
+vDetect.addTakenImageChangeHandler { (image) in
+    self.imageView.image = image
+    self.vDetect.saveTakenImageToPhotos()
+}
 ```
 
 ## Requirements
 
-- iOS 8.0+
-- Xcode 7.3
+- iOS 11.0+
+- Xcode 11+
+- Swift 5.0+
 
 ## Installation
 
@@ -51,7 +50,7 @@ Inspired from https://github.com/aaronabentheuer/AAFaceDetection , added some ne
 You can use [CocoaPods](http://cocoapods.org/) to install `VisionDetect` by adding it to your `Podfile`:
 
 ```ruby
-platform :ios, '8.0'
+platform :ios, '11.0'
 use_frameworks!
 pod 'VisionDetect', :git=>'https://github.com/miletliyusuf/VisionDetect.git'
 ```
@@ -62,7 +61,18 @@ To get the full benefits import `VisionDetect` wherever you import UIKit
 import VisionDetect
 ```
 #### Carthage
-Create a `Cartfile` that lists the framework and run `carthage update`. Follow the [instructions](https://github.com/Carthage/Carthage#if-youre-building-for-ios) to add `$(SRCROOT)/Carthage/Build/iOS/VisionDetect.framework` to an iOS project.
+Check out the [Carthage](https://github.com/Carthage/Carthage) docs on how to add a install. The `VisionDetect` framework is already setup with shared schemes.
+
+[Carthage Install](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application)
+
+You can install Carthage with [Homebrew](http://brew.sh/) using the following command:
+
+```bash
+$ brew update
+$ brew install carthage
+```
+
+To integrate VisionDetect into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```
 github "miletliyusuf/VisionDetect"
@@ -76,31 +86,39 @@ github "miletliyusuf/VisionDetect"
 ```swift
 import VisionDetect
 
-class YourViewController: UIViewController {
+class VisionDetectViewController: UIViewController {
 
-    @IBOutlet weak var imageView:UIImageView!
+    @IBOutlet private weak var imageView: UIImageView!
 
-    var vDetect:VisionDetect!
+    var vDetect = VisionDetect(
+        cameraPosition: .FaceTimeCamera,
+        optimizeFor: .HigherPerformance
+    )
 
     override func viewDidLoad() {
+
         super.viewDidLoad()
 
-        vDetect = VisionDetect(cameraPosition: VisionDetect.CameraDevice.FaceTimeCamera, optimizeFor: VisionDetect.DetectorAccuracy.HigherPerformance)
         vDetect.delegate = self
-        vDetect.onlyFireNotificatonOnStatusChange = false
+        vDetect.onlyFireNotificatonOnStatusChange = true
         vDetect.beginFaceDetection()
 
+        vDetect.addTakenImageChangeHandler { (image) in
+            self.imageView.image = image
+            self.vDetect.saveTakenImageToPhotos()
+        }
+
         self.view.addSubview(vDetect.visageCameraView)
+        self.view.bringSubviewToFront(imageView)
     }
+    
 }
 
-extension YourViewController: VisionDetectDelegate {
+extension VisionDetectViewController: VisionDetectDelegate {
+
     func didLeftEyeClosed() {
-        self.vDetect.takeAPicture(completionHandler: { (image) in
-            self.imageView.image = image
-            self.vDetect.endFaceDetection()
-            self.vDetect.visageCameraView.removeFromSuperview()
-        })
+
+        vDetect.takeAPicture()
     }
 }
 
@@ -118,7 +136,7 @@ Distributed under the MIT license. See ``LICENSE`` for more information.
 
 [https://github.com/miletliyusuf/VisionDetect](https://github.com/miletliyusuf/)
 
-[swift-image]:https://img.shields.io/badge/swift-3.0-orange.svg
+[swift-image]:https://img.shields.io/badge/swift-5.0-orange.svg
 [swift-url]: https://swift.org/
 [license-image]: https://img.shields.io/badge/License-MIT-blue.svg
 [license-url]: LICENSE
