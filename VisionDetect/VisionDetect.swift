@@ -6,12 +6,14 @@
 //  Copyright © 2017 Miletli. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import CoreImage
 import AVFoundation
 import ImageIO
 
-public protocol VisionDetectDelegate {
+public protocol VisionDetectDelegate: AnyObject {
+
     func didNoFaceDetected()
     func didFaceDetected()
     func didSmile()
@@ -28,6 +30,7 @@ public protocol VisionDetectDelegate {
 
 ///Makes every method is optional
 extension VisionDetectDelegate {
+
     func didNoFaceDetected() { }
     func didFaceDetected() { }
     func didSmile() { }
@@ -43,6 +46,7 @@ extension VisionDetectDelegate {
 }
 
 public enum VisionDetectGestures {
+
     case face
     case noFace
     case smile
@@ -59,7 +63,7 @@ public enum VisionDetectGestures {
 
 open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     
-    public var delegate:VisionDetectDelegate? = nil
+    weak var delegate: VisionDetectDelegate? = nil
     
     public enum DetectorAccuracy {
         case BatterySaving
@@ -97,8 +101,9 @@ open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate 
     private var captureSession : AVCaptureSession = AVCaptureSession()
     private let notificationCenter : NotificationCenter = NotificationCenter.default
     private var currentOrientation : Int?
-    private let stillImageOutput = AVCaptureStillImageOutput()
+    private let stillImageOutput = AVCapturePhotoOutput()
     private var detectedGestures:[VisionDetectGestures] = []
+    private var takenImage: UIImage?
     
     public init(cameraPosition : CameraDevice, optimizeFor : DetectorAccuracy) {
         super.init()
@@ -106,8 +111,8 @@ open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate 
         currentOrientation = convertOrientation(deviceOrientation: UIDevice.current.orientation)
         
         switch cameraPosition {
-        case .FaceTimeCamera : self.captureSetup(position: AVCaptureDevicePosition.front)
-        case .ISightCamera : self.captureSetup(position: AVCaptureDevicePosition.back)
+        case .FaceTimeCamera : self.captureSetup(position: AVCaptureDevice.Position.front)
+        case .ISightCamera : self.captureSetup(position: AVCaptureDevice.Position.back)
         }
         
         var faceDetectorOptions : [String : AnyObject]?
@@ -137,44 +142,56 @@ open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate 
     }
     
     public func saveToCamera() {
-        if let videoConnection = stillImageOutput.connection(withMediaType: AVMediaTypeVideo) {
-            stillImageOutput.captureStillImageAsynchronously(from: videoConnection) {
-                (imageDataSampleBuffer, error) -> Void in
-                let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
-                UIImageWriteToSavedPhotosAlbum(UIImage(data: imageData!)!, nil, nil, nil)
-            }
+        if stillImageOutput.connection(with: .video) != nil {
+
+            let settings = AVCapturePhotoSettings()
+            let previewPixelType = settings.availablePreviewPhotoPixelFormatTypes.first ?? nil
+            let previewFormat = [String(kCVPixelBufferPixelFormatTypeKey): previewPixelType,
+                                 String(kCVPixelBufferWidthKey): 160,
+                                 String(kCVPixelBufferHeightKey): 160]
+            settings.previewPhotoFormat = previewFormat as [String : Any]
+            stillImageOutput.capturePhoto(with: settings, delegate: self)
         }
     }
     
-    public func getGestures(from image:UIImage) -> [VisionDetectGestures] {
+    public func getGestures(from image: UIImage) -> [VisionDetectGestures] {
         self.captureOutput(takenImage: image)
         return self.detectedGestures
     }
     
-    public func takeAPicture(completionHandler: @escaping (_ image:UIImage) -> ()) {
-        if let videoConnection = stillImageOutput.connection(withMediaType: AVMediaTypeVideo) {
-            
-            stillImageOutput.captureStillImageAsynchronously(from: videoConnection) {
-                (imageDataSampleBuffer, error) -> Void in
-                let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
-                let image = UIImage(data: imageData!)
-                completionHandler(image!)
+    public func takeAPicture(completionHandler: @escaping (_ image: UIImage) -> ()) {
+
+        if stillImageOutput.connection(with: .video) != nil {
+            let settings = AVCapturePhotoSettings()
+            let previewPixelType = settings.availablePreviewPhotoPixelFormatTypes.first ?? nil
+            let previewFormat = [String(kCVPixelBufferPixelFormatTypeKey): previewPixelType,
+                                 String(kCVPixelBufferWidthKey): 160,
+                                 String(kCVPixelBufferHeightKey): 160]
+            settings.previewPhotoFormat = previewFormat as [String : Any]
+            stillImageOutput.capturePhoto(with: settings, delegate: self)
+            if let image = self.takenImage {
+                completionHandler(image)
             }
         }
     }
     
-    private func captureSetup (position : AVCaptureDevicePosition) {
+    private func captureSetup(position: AVCaptureDevice.Position) {
         var captureError : NSError?
         var captureDevice : AVCaptureDevice!
-        
-        for testedDevice in AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo){
+
+        let devices = AVCaptureDevice.DiscoverySession(
+            deviceTypes: [.builtInWideAngleCamera],
+            mediaType: .video,
+            position: position
+        ).devices
+        for testedDevice in devices {
             if ((testedDevice as AnyObject).position == position) {
-                captureDevice = testedDevice as! AVCaptureDevice
+                captureDevice = testedDevice
             }
         }
         
         if (captureDevice == nil) {
-            captureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+            captureDevice = AVCaptureDevice.default(for: .video)
         }
         
         var deviceInput : AVCaptureDeviceInput?
@@ -184,30 +201,32 @@ open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate 
             captureError = error
             deviceInput = nil
         }
-        captureSession.sessionPreset = AVCaptureSessionPresetHigh
+        captureSession.sessionPreset = .high
         
         if (captureError == nil) {
-            if (captureSession.canAddInput(deviceInput)) {
-                captureSession.addInput(deviceInput)
+            if let input = deviceInput,
+                captureSession.canAddInput(input) {
+                captureSession.addInput(input)
             }
             
             self.videoDataOutput = AVCaptureVideoDataOutput()
-            self.videoDataOutput!.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable: Int(kCVPixelFormatType_32BGRA)]
-            self.videoDataOutput!.alwaysDiscardsLateVideoFrames = true
-            self.videoDataOutputQueue = DispatchQueue(label:"VideoDataOutputQueue")
-            self.videoDataOutput!.setSampleBufferDelegate(self, queue: self.videoDataOutputQueue!)
+            self.videoDataOutput?.videoSettings = [String(kCVPixelBufferPixelFormatTypeKey) : Int(kCVPixelFormatType_32BGRA)]
+            self.videoDataOutput?.alwaysDiscardsLateVideoFrames = true
+            self.videoDataOutputQueue = DispatchQueue(label: "VideoDataOutputQueue")
+            self.videoDataOutput?.setSampleBufferDelegate(self, queue: self.videoDataOutputQueue)
             
-            if (captureSession.canAddOutput(self.videoDataOutput)) {
-                captureSession.addOutput(self.videoDataOutput)
+            if let output = self.videoDataOutput,
+                captureSession.canAddOutput(output) {
+                captureSession.addOutput(output)
             }
         }
         
         visageCameraView.frame = UIScreen.main.bounds
         
         let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        previewLayer?.frame = UIScreen.main.bounds
-        previewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
-        visageCameraView.layer.addSublayer(previewLayer!)
+        previewLayer.frame = UIScreen.main.bounds
+        previewLayer.videoGravity = .resizeAspectFill
+        visageCameraView.layer.addSublayer(previewLayer)
     }
     
     private func addItemToGestureArray(item:VisionDetectGestures) {
@@ -219,6 +238,7 @@ open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate 
     var options : [String : AnyObject]?
     
     //MARK: CAPTURE-OUTPUT/ANALYSIS OF FACIAL-FEATURES
+    // TODO: Needs refactor
     public func captureOutput(_ captureOutput: AVCaptureOutput? = nil, didOutputSampleBuffer sampleBuffer: CMSampleBuffer? = nil, from connection: AVCaptureConnection? = nil,takenImage: UIImage? = nil) {
         var sourceImage = CIImage.init()
         if takenImage == nil {
@@ -421,5 +441,19 @@ open class VisionDetect: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate 
         default : orientation = 1
         }
         return orientation
+    }
+}
+
+// MARK: - AVCapturePhotoCaptureDelegate
+
+extension VisionDetect: AVCapturePhotoCaptureDelegate {
+
+    public func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+
+        if let imageData = photo.fileDataRepresentation(),
+            let image = UIImage(data: imageData) {
+            self.takenImage = image
+            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+        }
     }
 }

@@ -26,3 +26,7 @@ xcuserdata/
 *.xccheckout
 *.xcscmblueprint
 
+VisionDetect.xcodeproj/project.xcworkspace/xcshareddata/
+VisionDetect.xcodeproj/xcuserdata/
+VisionDetect.xcodeproj/xcuserdata/*
+
