@@ -63,7 +63,7 @@ public enum VisionDetectGestures {
 
 open class VisionDetect: NSObject {
 
-    weak var delegate: VisionDetectDelegate? = nil
+    public weak var delegate: VisionDetectDelegate? = nil
 
     public enum DetectorAccuracy {
         case BatterySaving
