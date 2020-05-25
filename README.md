@@ -11,6 +11,8 @@
 
 Inspired from https://github.com/aaronabentheuer/AAFaceDetection , added some new features(like take a photo) and will add in near future. Moved from KVO to Delegation structure to easy use :)
 
+Check [Example Project](https://github.com/miletliyusuf/YMFrameworksShowCase).
+
 ## Delegate Methods
 
 ``` swift
