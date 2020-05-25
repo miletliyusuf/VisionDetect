@@ -29,7 +29,7 @@ public protocol VisionDetectDelegate: AnyObject {
 }
 
 ///Makes every method is optional
-extension VisionDetectDelegate {
+public extension VisionDetectDelegate {
 
     func didNoFaceDetected() { }
     func didFaceDetected() { }
